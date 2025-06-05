@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government Scheme Search Wizard</title>
+    <title>Scheme Wizard - Department of Industries & Commerce, Government of Nagaland</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -11,32 +11,122 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background-color: #f9fafb;
         }
-        .icon {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
+        .gradient-bg {
+            background: linear-gradient(135deg, #f3e8ff 0%, #ffffff 50%, #fef2f2 100%);
         }
-        .transition-all {
+        .primary-red {
+            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+            color: white;
+        }
+        .primary-red:hover {
+            background: linear-gradient(135deg, #7f1d1d 0%, #6b1d1d 100%);
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(153, 27, 27, 0.4);
+        }
+        .red-accent {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        }
+        .red-light {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #991b1b;
+        }
+        .progress-red {
+            background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .progress-bar {
+            transition: width 0.5s ease-out;
+        }
+        .option-card {
             transition: all 0.3s ease;
         }
-        .hover\:shadow-lg:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        .option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .selected-card {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.4);
+        }
+        .scheme-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .scheme-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-color: #dc2626;
+        }
+        .sector-badge-msme {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #991b1b;
+            border-color: #fca5a5;
+        }
+        .sector-badge-food {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #166534;
+            border-color: #86efac;
+        }
+        .sector-badge-textiles {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            color: #6b21a8;
+            border-color: #c4b5fd;
+        }
+        .match-score {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
     </style>
 </head>
 <body>
-    <div id="app" class="max-w-2xl mx-auto p-6 bg-white min-h-screen">
-        <!-- Initial loading state -->
-        <div class="text-center py-12">
-            <h1 class="text-2xl font-bold text-gray-900 mb-4">Government Scheme Finder</h1>
-            <p class="text-gray-600">Loading wizard...</p>
+    <div id="app" class="min-h-screen gradient-bg">
+        <!-- Loading State -->
+        <div class="min-h-screen flex items-center justify-center">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Scheme Wizard</h1>
+                <p class="text-gray-600">Department of Industries & Commerce, Government of Nagaland</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Scheme data
+        // Enhanced scheme data with additional fields
         const schemes = [
             {
                 id: 1,
@@ -47,7 +137,9 @@
                 eligibility: "Individuals above 18 years. Also applicable to artisans",
                 question: "I need financial support to start business for self-employment.",
                 keywords: ["financial support", "start business", "self-employment", "new business", "entrepreneur"],
-                url: "https://www.kviconline.gov.in/pmegpeportal/"
+                url: "https://www.kviconline.gov.in/pmegpeportal/",
+                funding: "Up to ₹25 lakhs",
+                processing: "30-45 days"
             },
             {
                 id: 2,
@@ -58,7 +150,9 @@
                 eligibility: "Existing PMEGP/MUDRA units with profit for the last 3 years. Also applicable to artisans",
                 question: "I need financial support to expand existing business for self-employment.",
                 keywords: ["expand existing business", "upgradation", "existing unit", "expansion"],
-                url: "https://www.kviconline.gov.in/pmegpeportal/"
+                url: "https://www.kviconline.gov.in/pmegpeportal/",
+                funding: "Up to ₹1 crore",
+                processing: "45-60 days"
             },
             {
                 id: 3,
@@ -69,7 +163,9 @@
                 eligibility: "Existing and aspiring entrepreneurs.",
                 question: "I need collateral free loans to start or expand business",
                 keywords: ["collateral free loans", "no collateral", "guarantee", "loans without security"],
-                url: "https://www.cgtmse.in/"
+                url: "https://www.cgtmse.in/",
+                funding: "Up to ₹2 crores",
+                processing: "15-30 days"
             },
             {
                 id: 4,
@@ -80,7 +176,9 @@
                 eligibility: "Existing entrepreneurs (SPVs).",
                 question: "I want to set up Common Facility Centers and infrastructure for group of entrepreneurs or artisans",
                 keywords: ["common facility centers", "infrastructure", "group entrepreneurs", "cluster development"],
-                url: "https://msecdp.dcmsme.gov.in/"
+                url: "https://msecdp.dcmsme.gov.in/",
+                funding: "Up to ₹15 crores",
+                processing: "60-90 days"
             },
             {
                 id: 5,
@@ -91,7 +189,9 @@
                 eligibility: "Artisans engaged in 18 listed trades. Not applicable to those who have already availed PMEGP",
                 question: "I am an artisan/craftsman and I need tools and financial support",
                 keywords: ["artisan", "craftsman", "tools", "traditional crafts", "vishwakarma"],
-                url: "https://pmvishwakarma.gov.in/"
+                url: "https://pmvishwakarma.gov.in/",
+                funding: "Up to ₹3 lakhs",
+                processing: "20-30 days"
             },
             {
                 id: 6,
@@ -102,7 +202,9 @@
                 eligibility: "Aspiring and existing entrepreneurs.",
                 question: "I want to undergo entrepreneurship or skill training",
                 keywords: ["entrepreneurship training", "skill training", "capacity building", "learning"],
-                url: "https://msmedi.dcmsme.gov.in/CalendarEvent.aspx"
+                url: "https://msmedi.dcmsme.gov.in/CalendarEvent.aspx",
+                funding: "Free training",
+                processing: "Immediate enrollment"
             },
             {
                 id: 16,
@@ -113,7 +215,9 @@
                 eligibility: "Private companies, cooperatives, and government agencies.",
                 question: "I want to develop a mega food park",
                 keywords: ["mega food park", "food processing infrastructure", "large scale food"],
-                url: "https://pmfme.mofpi.gov.in/"
+                url: "https://pmfme.mofpi.gov.in/",
+                funding: "Up to ₹50 crores",
+                processing: "90-120 days"
             },
             {
                 id: 17,
@@ -124,7 +228,9 @@
                 eligibility: "Private companies, cooperatives, and government agencies.",
                 question: "I want to build cold storage and transportation supply chain",
                 keywords: ["cold storage", "cold chain", "refrigerated transport", "supply chain"],
-                url: "https://pmfme.mofpi.gov.in/"
+                url: "https://pmfme.mofpi.gov.in/",
+                funding: "Up to ₹10 crores",
+                processing: "60-90 days"
             },
             {
                 id: 25,
@@ -135,7 +241,9 @@
                 eligibility: "Textile units (spinning, weaving, processing, garmenting, etc.).",
                 question: "I want subsidy to upgrade technology and modernise my textile equipment",
                 keywords: ["textile technology", "modernization", "textile machinery", "equipment upgrade"],
-                url: "https://texmin.nic.in/"
+                url: "https://texmin.nic.in/",
+                funding: "Up to ₹30 crores",
+                processing: "45-75 days"
             },
             {
                 id: 27,
@@ -146,7 +254,9 @@
                 eligibility: "Handloom weavers, cooperatives, and state governments.",
                 question: "I want support as a handloom weaver",
                 keywords: ["handloom weaver", "handloom", "weaving", "traditional textiles"],
-                url: "https://handlooms.nic.in/"
+                url: "https://handlooms.nic.in/",
+                funding: "Up to ₹2 lakhs",
+                processing: "30-45 days"
             }
         ];
 
@@ -154,45 +264,49 @@
             {
                 id: 1,
                 question: "What is your primary business focus?",
+                subtitle: "Tell us about your entrepreneurial journey",
                 options: [
-                    { value: "new_business", label: "Starting a new business", icon: "🏭" },
-                    { value: "existing_business", label: "Expanding existing business", icon: "📈" },
-                    { value: "artisan_crafts", label: "Traditional crafts/artisan work", icon: "🎨" },
-                    { value: "food_processing", label: "Food processing/agriculture", icon: "🌾" },
-                    { value: "textiles", label: "Textiles/handloom/handicrafts", icon: "✂️" }
+                    { value: "new_business", label: "Starting a new business", icon: "🏭", description: "Launch your entrepreneurial venture" },
+                    { value: "existing_business", label: "Expanding existing business", icon: "📈", description: "Scale up your current operations" },
+                    { value: "artisan_crafts", label: "Traditional crafts/artisan work", icon: "🎨", description: "Preserve and promote traditional skills" },
+                    { value: "food_processing", label: "Food processing/agriculture", icon: "🌾", description: "Transform agricultural products" },
+                    { value: "textiles", label: "Textiles/handloom/handicrafts", icon: "✂️", description: "Create beautiful textile products" }
                 ]
             },
             {
                 id: 2,
                 question: "What type of support do you need most?",
+                subtitle: "Choose all forms of assistance that would help you",
                 options: [
-                    { value: "financial", label: "Financial support/loans", icon: "💰" },
-                    { value: "training", label: "Training and skill development", icon: "👥" },
-                    { value: "infrastructure", label: "Infrastructure development", icon: "🏗️" },
-                    { value: "marketing", label: "Marketing and export support", icon: "🚚" },
-                    { value: "technology", label: "Technology upgradation", icon: "🔧" }
+                    { value: "financial", label: "Financial support/loans", icon: "💰", description: "Capital for your business needs" },
+                    { value: "training", label: "Training and skill development", icon: "👥", description: "Enhance your capabilities" },
+                    { value: "infrastructure", label: "Infrastructure development", icon: "🏗️", description: "Build essential facilities" },
+                    { value: "marketing", label: "Marketing and export support", icon: "🚚", description: "Reach new markets globally" },
+                    { value: "technology", label: "Technology upgradation", icon: "🔧", description: "Modernize your operations" }
                 ]
             },
             {
                 id: 3,
                 question: "What best describes your current situation?",
+                subtitle: "Help us understand your background",
                 options: [
-                    { value: "new_entrepreneur", label: "New entrepreneur (no existing business)" },
-                    { value: "existing_profitable", label: "Existing business (profitable for 3+ years)" },
-                    { value: "artisan_traditional", label: "Traditional artisan/craftsperson" },
-                    { value: "sc_st", label: "SC/ST entrepreneur" },
-                    { value: "rural_focus", label: "Focus on rural/village business" }
+                    { value: "new_entrepreneur", label: "New entrepreneur", description: "No existing business experience" },
+                    { value: "existing_profitable", label: "Existing profitable business", description: "3+ years of profitable operations" },
+                    { value: "artisan_traditional", label: "Traditional artisan/craftsperson", description: "Skilled in traditional crafts" },
+                    { value: "sc_st", label: "SC/ST entrepreneur", description: "Scheduled Caste/Scheduled Tribe background" },
+                    { value: "rural_focus", label: "Rural/village business focus", description: "Operating in rural areas" }
                 ]
             },
             {
                 id: 4,
                 question: "Are you looking for any specific features?",
+                subtitle: "Select specialized requirements",
                 options: [
-                    { value: "collateral_free", label: "Collateral-free loans" },
-                    { value: "export_market", label: "Export market entry" },
-                    { value: "cold_storage", label: "Cold storage/supply chain" },
-                    { value: "common_facilities", label: "Common facility centers" },
-                    { value: "technical_training", label: "Technical skills training" }
+                    { value: "collateral_free", label: "Collateral-free loans", description: "No security required" },
+                    { value: "export_market", label: "Export market entry", description: "International business opportunities" },
+                    { value: "cold_storage", label: "Cold storage/supply chain", description: "Preserve product quality" },
+                    { value: "common_facilities", label: "Common facility centers", description: "Shared infrastructure benefits" },
+                    { value: "technical_training", label: "Technical skills training", description: "Advanced skill development" }
                 ]
             }
         ];
@@ -201,13 +315,14 @@
         let currentStep = 0;
         let answers = [];
         let results = [];
+        let isAnimating = false;
 
         // Helper functions
         function getSectorColor(sector) {
             switch (sector) {
-                case 'MSME': return 'bg-blue-100 text-blue-800 border-blue-200';
-                case 'Food': return 'bg-green-100 text-green-800 border-green-200';
-                case 'Textiles': return 'bg-purple-100 text-purple-800 border-purple-200';
+                case 'MSME': return 'sector-badge-msme';
+                case 'Food': return 'sector-badge-food';
+                case 'Textiles': return 'sector-badge-textiles';
                 default: return 'bg-gray-100 text-gray-800 border-gray-200';
             }
         }
@@ -261,7 +376,21 @@
                 if (userAnswers.includes('training') && scheme.keywords.some(k => k.includes('training') || k.includes('skill'))) {
                     score += 2;
                 }
+                if (userAnswers.includes('infrastructure') && scheme.keywords.some(k => k.includes('infrastructure') || k.includes('facility'))) {
+                    score += 2;
+                }
+                if (userAnswers.includes('marketing') && scheme.keywords.some(k => k.includes('marketing') || k.includes('export') || k.includes('trade'))) {
+                    score += 2;
+                }
+
+                // Specific situation matching
+                if (userAnswers.includes('sc_st') && scheme.keywords.some(k => k.includes('SC/ST'))) {
+                    score += 5;
+                }
                 if (userAnswers.includes('collateral_free') && scheme.keywords.some(k => k.includes('collateral free'))) {
+                    score += 4;
+                }
+                if (userAnswers.includes('export_market') && scheme.keywords.some(k => k.includes('export') || k.includes('international'))) {
                     score += 4;
                 }
 
@@ -276,34 +405,86 @@
         }
 
         function handleAnswer(questionId, answer) {
-            answers[questionId - 1] = answer;
-            
-            // Add visual feedback
-            const buttons = document.querySelectorAll(`[data-question="${questionId}"] button`);
-            buttons.forEach(btn => {
-                btn.classList.remove('border-blue-500', 'bg-blue-50');
-                btn.classList.add('border-gray-200');
-            });
-            
-            const selectedButton = document.querySelector(`[data-value="${answer}"]`);
-            if (selectedButton) {
-                selectedButton.classList.remove('border-gray-200');
-                selectedButton.classList.add('border-blue-500', 'bg-blue-50');
+            // Initialize answers array for this question if it doesn't exist
+            if (!answers[questionId - 1]) {
+                answers[questionId - 1] = [];
             }
             
-            // Enable next button
+            // Toggle selection
+            const currentAnswers = answers[questionId - 1];
+            const answerIndex = currentAnswers.indexOf(answer);
+            
+            if (answerIndex > -1) {
+                // Remove if already selected
+                currentAnswers.splice(answerIndex, 1);
+            } else {
+                // Add if not selected
+                currentAnswers.push(answer);
+            }
+            
+            // Update visual feedback
+            const selectedButton = document.querySelector(`[data-value="${answer}"]`);
+            if (selectedButton) {
+                if (currentAnswers.includes(answer)) {
+                    selectedButton.classList.add('selected-card');
+                    selectedButton.classList.remove('border-gray-200');
+                    // Add checkmark if not exists
+                    if (!selectedButton.querySelector('.checkmark-container')) {
+                        const checkmarkDiv = document.createElement('div');
+                        checkmarkDiv.className = 'checkmark-container flex items-center space-x-2';
+                        checkmarkDiv.innerHTML = `
+                            <div class="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm">✓</span>
+                            </div>
+                            <span class="text-red-600 font-semibold text-sm">Selected</span>
+                        `;
+                        selectedButton.querySelector('.option-content').appendChild(checkmarkDiv);
+                    }
+                } else {
+                    selectedButton.classList.remove('selected-card');
+                    selectedButton.classList.add('border-gray-200');
+                    // Remove checkmark
+                    const checkmark = selectedButton.querySelector('.checkmark-container');
+                    if (checkmark) {
+                        checkmark.remove();
+                    }
+                }
+            }
+            
+            // Enable/disable next button
+            updateNavigationState();
+        }
+
+        function updateNavigationState() {
             const nextBtn = document.getElementById('nextBtn');
+            const selectedCount = document.getElementById('selectedCount');
+            const currentAnswers = answers[currentStep] || [];
+            
             if (nextBtn) {
-                nextBtn.disabled = false;
-                nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                nextBtn.classList.add('hover:bg-blue-700');
+                if (currentAnswers.length > 0) {
+                    nextBtn.disabled = false;
+                    nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    nextBtn.classList.add('btn-primary');
+                } else {
+                    nextBtn.disabled = true;
+                    nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    nextBtn.classList.remove('btn-primary');
+                }
+            }
+            
+            if (selectedCount) {
+                selectedCount.textContent = `${currentAnswers.length} option${currentAnswers.length !== 1 ? 's' : ''} selected`;
             }
         }
 
         function nextStep() {
             if (currentStep < questions.length - 1) {
-                currentStep++;
-                renderQuestion();
+                setAnimating(true);
+                setTimeout(() => {
+                    currentStep++;
+                    renderQuestion();
+                    setAnimating(false);
+                }, 300);
             } else {
                 calculateResults();
             }
@@ -311,8 +492,25 @@
 
         function prevStep() {
             if (currentStep > 0) {
-                currentStep--;
-                renderQuestion();
+                setAnimating(true);
+                setTimeout(() => {
+                    currentStep--;
+                    renderQuestion();
+                    setAnimating(false);
+                }, 300);
+            }
+        }
+
+        function setAnimating(animating) {
+            isAnimating = animating;
+            const questionContainer = document.getElementById('questionContainer');
+            if (questionContainer) {
+                if (animating) {
+                    questionContainer.classList.add('opacity-0', 'transform', 'translate-x-4');
+                } else {
+                    questionContainer.classList.remove('opacity-0', 'transform', 'translate-x-4');
+                    questionContainer.classList.add('animate-slide-in');
+                }
             }
         }
 
@@ -327,132 +525,262 @@
             const app = document.getElementById('app');
             const question = questions[currentStep];
             const progress = ((currentStep + 1) / questions.length) * 100;
+            const currentAnswers = answers[currentStep] || [];
 
             app.innerHTML = `
-                <div class="mb-8">
-                    <div class="flex items-center justify-between mb-4">
-                        <h1 class="text-2xl font-bold text-gray-900">Government Scheme Finder</h1>
-                        <span class="text-sm text-gray-500">Step ${currentStep + 1} of ${questions.length}</span>
-                    </div>
-                    
-                    <div class="w-full bg-gray-200 rounded-full h-2 mb-6">
-                        <div class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: ${progress}%"></div>
-                    </div>
-                </div>
+                <div class="min-h-screen gradient-bg">
+                    <div class="max-w-4xl mx-auto p-6">
+                        <!-- Header -->
+                        <div class="text-center mb-12 animate-fade-in">
+                            <h1 class="text-4xl font-bold text-gray-900 mb-2">Scheme Wizard</h1>
+                            <p class="text-xl text-gray-600">Department of Industries & Commerce, Government of Nagaland</p>
+                            <p class="text-lg text-gray-500 mt-2">Discover the perfect schemes for your business journey</p>
+                        </div>
 
-                <div class="mb-8" data-question="${question.id}">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6">${question.question}</h2>
-                    
-                    <div class="space-y-3">
-                        ${question.options.map(option => `
-                            <button 
-                                data-value="${option.value}"
-                                onclick="handleAnswer(${question.id}, '${option.value}')"
-                                class="w-full p-4 text-left border-2 border-gray-200 rounded-lg transition-all hover:border-blue-300 hover:bg-blue-50 ${answers[currentStep] === option.value ? 'border-blue-500 bg-blue-50' : ''}"
-                            >
-                                <div class="flex items-center space-x-3">
-                                    ${option.icon ? `<span class="text-blue-600 text-xl">${option.icon}</span>` : ''}
-                                    <span class="font-medium">${option.label}</span>
+                        <!-- Progress Section -->
+                        <div class="mb-12">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold text-gray-700">Progress</h2>
+                                <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                                    Step ${currentStep + 1} of ${questions.length}
+                                </span>
+                            </div>
+                            
+                            <div class="w-full bg-gray-200 rounded-full h-3 mb-6 overflow-hidden">
+                                <div class="progress-red h-3 rounded-full progress-bar" style="width: ${progress}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Question Section -->
+                        <div id="questionContainer" class="transition-all duration-300">
+                            <div class="bg-white rounded-2xl card-shadow border border-gray-100 p-8 mb-8">
+                                <div class="text-center mb-8">
+                                    <h2 class="text-3xl font-bold text-gray-900 mb-3">${question.question}</h2>
+                                    <p class="text-lg text-gray-600">${question.subtitle}</p>
+                                    <div class="mt-4 inline-flex items-center px-4 py-2 red-light rounded-full text-sm font-medium">
+                                        <div class="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center mr-2">
+                                            <span class="text-white text-xs">✓</span>
+                                        </div>
+                                        You can select multiple options
+                                    </div>
                                 </div>
+                                
+                                <div class="grid gap-4 max-w-4xl mx-auto">
+                                    ${question.options.map(option => {
+                                        const isSelected = currentAnswers.includes(option.value);
+                                        return `
+                                            <button
+                                                data-value="${option.value}"
+                                                onclick="handleAnswer(${question.id}, '${option.value}')"
+                                                class="group relative p-6 text-left border-2 rounded-xl option-card hover-lift ${
+                                                    isSelected ? 'selected-card' : 'border-gray-200 bg-white'
+                                                }"
+                                            >
+                                                <div class="option-content flex items-center justify-between">
+                                                    <div class="flex items-center space-x-4">
+                                                        <div class="p-3 rounded-xl transition-all duration-300 ${
+                                                            isSelected ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white'
+                                                        }">
+                                                            <span class="text-2xl">${option.icon}</span>
+                                                        </div>
+                                                        <div>
+                                                            <h3 class="font-semibold text-lg text-gray-900 mb-1">${option.label}</h3>
+                                                            ${option.description ? `<p class="text-gray-600">${option.description}</p>` : ''}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    ${isSelected ? `
+                                                        <div class="checkmark-container flex items-center space-x-2">
+                                                            <div class="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+                                                                <span class="text-white text-sm">✓</span>
+                                                            </div>
+                                                            <span class="text-red-600 font-semibold text-sm">Selected</span>
+                                                        </div>
+                                                    ` : ''}
+                                                </div>
+                                            </button>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="flex justify-between items-center">
+                            <button
+                                onclick="prevStep()"
+                                ${currentStep === 0 ? 'disabled' : ''}
+                                class="flex items-center space-x-2 px-8 py-4 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-md"
+                            >
+                                <span>←</span>
+                                <span>Previous</span>
                             </button>
-                        `).join('')}
+
+                            <div class="text-center">
+                                <p id="selectedCount" class="text-sm text-gray-500 mb-2">
+                                    ${currentAnswers.length} option${currentAnswers.length !== 1 ? 's' : ''} selected
+                                </p>
+                            </div>
+
+                            <button
+                                id="nextBtn"
+                                onclick="nextStep()"
+                                ${currentAnswers.length === 0 ? 'disabled' : ''}
+                                class="flex items-center space-x-2 px-8 py-4 text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${currentAnswers.length === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400' : 'btn-primary'}"
+                            >
+                                <span>${currentStep === questions.length - 1 ? 'Find My Schemes' : 'Next Question'}</span>
+                                <span>→</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
-
-                <div class="flex justify-between">
-                    <button
-                        onclick="prevStep()"
-                        ${currentStep === 0 ? 'disabled' : ''}
-                        class="flex items-center space-x-2 px-6 py-3 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    >
-                        <span>←</span>
-                        <span>Previous</span>
-                    </button>
-
-                    <button
-                        id="nextBtn"
-                        onclick="nextStep()"
-                        ${!answers[currentStep] ? 'disabled' : ''}
-                        class="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold transition-colors ${!answers[currentStep] ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}"
-                    >
-                        <span>${currentStep === questions.length - 1 ? 'Find Schemes' : 'Next'}</span>
-                        <span>→</span>
-                    </button>
                 </div>
             `;
         }
 
         function showResults() {
             const app = document.getElementById('app');
+            const userAnswers = answers.flat();
             
             app.innerHTML = `
-                <div class="max-w-4xl mx-auto p-6 bg-white min-h-screen">
-                    <div class="text-center mb-8">
-                        <h1 class="text-3xl font-bold text-gray-900 mb-2">Your Recommended Schemes</h1>
-                        <p class="text-gray-600">Based on your responses, here are the most suitable government schemes for you:</p>
-                    </div>
-
-                    ${results.length > 0 ? `
-                        <div class="space-y-6 mb-8">
-                            ${results.map(scheme => `
-                                <div class="border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-                                    <div class="flex items-start justify-between mb-4">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="p-2 rounded-lg ${getSectorColor(scheme.sector)}">
-                                                <span class="text-xl">${getSectorIcon(scheme.sector)}</span>
-                                            </div>
-                                            <div>
-                                                <span class="inline-block px-3 py-1 rounded-full text-sm font-medium border ${getSectorColor(scheme.sector)}">
-                                                    ${scheme.sector}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center space-x-2">
-                                            <span class="text-sm text-gray-500">Match Score:</span>
-                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-semibold">
-                                                ${Math.min(100, Math.round((scheme.score / 10) * 100))}%
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">
-                                        <a href="${scheme.url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 hover:underline transition-colors">
-                                            ${scheme.name}
-                                        </a>
-                                    </h3>
-                                    <p class="text-gray-700 mb-3">${scheme.objective}</p>
-                                    
-                                    <div class="grid md:grid-cols-2 gap-4 mb-4">
-                                        <div>
-                                            <h4 class="font-semibold text-gray-900 mb-1">Key Benefits:</h4>
-                                            <p class="text-gray-600">${scheme.benefits}</p>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-gray-900 mb-1">Eligibility:</h4>
-                                            <p class="text-gray-600">${scheme.eligibility}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                                        <p class="text-blue-800 font-medium">💡 This scheme is perfect if: ${scheme.question}</p>
-                                    </div>
+                <div class="min-h-screen gradient-bg">
+                    <div class="max-w-6xl mx-auto p-6">
+                        <!-- Header -->
+                        <div class="text-center mb-12 animate-fade-in">
+                            <div class="inline-flex items-center justify-center w-16 h-16 red-accent rounded-full mb-6">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                                    <span class="text-red-600 font-bold">✓</span>
                                 </div>
-                            `).join('')}
-                        </div>
-                    ` : `
-                        <div class="text-center py-12">
-                            <div class="bg-gray-100 rounded-full p-6 w-24 h-24 mx-auto mb-4">
-                                <span class="text-4xl">🔍</span>
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">No Perfect Matches Found</h3>
-                            <p class="text-gray-600 mb-4">Try adjusting your responses to find more suitable schemes.</p>
+                            <h1 class="text-4xl font-bold text-gray-900 mb-4">Perfect Matches Found!</h1>
+                            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                                Based on your ${userAnswers.length} selected preferences, we've found the most suitable government schemes for you.
+                            </p>
+                            
+                            <!-- Selected Preferences -->
+                            <div class="mt-8 flex flex-wrap justify-center gap-3">
+                                ${userAnswers.map(answer => `
+                                    <span class="px-4 py-2 red-light rounded-full text-sm font-medium border border-red-200">
+                                        ${answer.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                    </span>
+                                `).join('')}
+                            </div>
                         </div>
-                    `}
 
-                    <div class="text-center">
-                        <button onclick="resetWizard()" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                            Start New Search
-                        </button>
+                        <!-- Results -->
+                        ${results.length > 0 ? `
+                            <div class="space-y-8 mb-12">
+                                ${results.map((scheme, index) => `
+                                    <div class="group bg-white border border-gray-200 rounded-2xl p-8 scheme-card animate-fade-in" style="animation-delay: ${index * 0.1}s">
+                                        <!-- Header -->
+                                        <div class="flex items-start justify-between mb-6">
+                                            <div class="flex items-center space-x-4">
+                                                <div class="p-3 rounded-xl bg-gradient-to-r ${scheme.sector === 'MSME' ? 'from-red-600 to-red-700' : scheme.sector === 'Food' ? 'from-green-500 to-green-600' : 'from-purple-500 to-purple-600'}">
+                                                    <span class="text-white text-2xl">${getSectorIcon(scheme.sector)}</span>
+                                                </div>
+                                                <div>
+                                                    <span class="inline-block px-4 py-2 rounded-full text-sm font-semibold border ${getSectorColor(scheme.sector)}">
+                                                        ${scheme.sector}
+                                                    </span>
+                                                    ${index === 0 ? `
+                                                        <span class="ml-3 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">
+                                                            <span class="mr-1">⭐</span>
+                                                            Best Match
+                                                        </span>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="flex items-center space-x-2 mb-2">
+                                                    <span class="text-sm text-gray-500">Match Score:</span>
+                                                    <span class="match-score text-white px-3 py-1 rounded-full text-sm font-bold">
+                                                        ${Math.min(100, Math.round((scheme.score / 10) * 100))}%
+                                                    </span>
+                                                </div>
+                                                <div class="text-sm text-gray-500">
+                                                    Processing: ${scheme.processing}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Title -->
+                                        <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors">
+                                            <a 
+                                                href="${scheme.url}" 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                class="hover:underline inline-flex items-center"
+                                            >
+                                                ${scheme.name}
+                                                <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">🔗</span>
+                                            </a>
+                                        </h3>
+                                        
+                                        <p class="text-gray-700 mb-6 text-lg leading-relaxed">${scheme.objective}</p>
+                                        
+                                        <!-- Details Grid -->
+                                        <div class="grid md:grid-cols-3 gap-6 mb-6">
+                                            <div class="bg-gray-50 rounded-xl p-4">
+                                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                                    <span class="mr-2">📋</span>
+                                                    Key Benefits
+                                                </h4>
+                                                <p class="text-gray-600">${scheme.benefits}</p>
+                                            </div>
+                                            <div class="bg-gray-50 rounded-xl p-4">
+                                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                                    <span class="mr-2">👥</span>
+                                                    Eligibility
+                                                </h4>
+                                                <p class="text-gray-600">${scheme.eligibility}</p>
+                                            </div>
+                                            <div class="bg-gray-50 rounded-xl p-4">
+                                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                                    <span class="mr-2">💰</span>
+                                                    Funding
+                                                </h4>
+                                                <p class="text-gray-600 font-semibold">${scheme.funding}</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Perfect Match Indicator -->
+                                        <div class="bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-xl p-4">
+                                            <p class="text-red-800 font-medium flex items-center">
+                                                <div class="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center mr-2">
+                                                    <span class="text-white text-xs">✓</span>
+                                                </div>
+                                                Perfect if: ${scheme.question}
+                                            </p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : `
+                            <div class="text-center py-16">
+                                <div class="bg-gray-100 rounded-full p-8 w-32 h-32 mx-auto mb-6">
+                                    <span class="text-6xl">🔍</span>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-gray-900 mb-4">No Perfect Matches Found</h3>
+                                <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                                    Don't worry! Try adjusting your preferences to discover more suitable schemes for your needs.
+                                </p>
+                            </div>
+                        `}
+
+                        <!-- Action Buttons -->
+                        <div class="text-center space-y-4">
+                            <button
+                                onclick="resetWizard()"
+                                class="primary-red px-10 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mr-4"
+                            >
+                                Start New Search
+                            </button>
+                            <button
+                                onclick="window.location.reload()"
+                                class="bg-gray-600 hover:bg-gray-700 text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                            >
+                                🏠 Home
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;

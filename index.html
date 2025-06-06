@@ -1,795 +1,661 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scheme Wizard - Department of Industries & Commerce, Government of Nagaland</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #f3e8ff 0%, #ffffff 50%, #fef2f2 100%);
-        }
-        .primary-red {
-            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
-            color: white;
-        }
-        .primary-red:hover {
-            background: linear-gradient(135deg, #7f1d1d 0%, #6b1d1d 100%);
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px -5px rgba(153, 27, 27, 0.4);
-        }
-        .red-accent {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-        }
-        .red-light {
-            background: #fef2f2;
-            border-color: #fecaca;
-            color: #991b1b;
-        }
-        .progress-red {
-            background: linear-gradient(90deg, #dc2626 0%, #991b1b 100%);
-        }
-        .card-shadow {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .hover-lift:hover {
-            transform: translateY(-4px);
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-slide-in {
-            animation: slideIn 0.3s ease-out;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .progress-bar {
-            transition: width 0.5s ease-out;
-        }
-        .option-card {
-            transition: all 0.3s ease;
-        }
-        .option-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        .selected-card {
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-            border-color: #dc2626;
-            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
-            transform: scale(1.02);
-            box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.4);
-        }
-        .scheme-card {
-            transition: all 0.3s ease;
-            border: 1px solid #e5e7eb;
-        }
-        .scheme-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border-color: #dc2626;
-        }
-        .sector-badge-msme {
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-            color: #991b1b;
-            border-color: #fca5a5;
-        }
-        .sector-badge-food {
-            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-            color: #166534;
-            border-color: #86efac;
-        }
-        .sector-badge-textiles {
-            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            color: #6b21a8;
-            border-color: #c4b5fd;
-        }
-        .match-score {
-            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-    </style>
-</head>
-<body>
-    <div id="app" class="min-h-screen gradient-bg">
-        <!-- Loading State -->
-        <div class="min-h-screen flex items-center justify-center">
-            <div class="text-center">
-                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-red-600 mx-auto mb-4"></div>
-                <h1 class="text-2xl font-bold text-gray-900 mb-2">Scheme Wizard</h1>
-                <p class="text-gray-600">Department of Industries & Commerce, Government of Nagaland</p>
-            </div>
-        </div>
-    </div>
+import React, { useState, useEffect } from 'react';
+import { ChevronRight, ChevronLeft, Search, FileText, Award, Users, Factory, Truck, Scissors, Wheat, Star, ExternalLink, CheckCircle, Home } from 'lucide-react';
 
-    <script>
-        // Enhanced scheme data with additional fields
-        const schemes = [
-            {
-                id: 1,
-                sector: "MSME",
-                name: "Prime Minister's Employment Generation Programme (PMEGP)",
-                objective: "Generate sustainable employment opportunities in rural and urban areas.",
-                benefits: "Margin Money subsidy (15%-35%), credit-linked subsidy for new micro-enterprises.",
-                eligibility: "Individuals above 18 years. Also applicable to artisans",
-                question: "I need financial support to start business for self-employment.",
-                keywords: ["financial support", "start business", "self-employment", "new business", "entrepreneur"],
-                url: "https://www.kviconline.gov.in/pmegpeportal/",
-                funding: "Up to ₹25 lakhs",
-                processing: "30-45 days"
-            },
-            {
-                id: 2,
-                sector: "MSME",
-                name: "2nd Loan for Upgradation of Existing PMEGP/MUDRA Units",
-                objective: "Assist existing units for expansion and upgradation.",
-                benefits: "15% subsidy (20% for NER and Hill States) for project cost.",
-                eligibility: "Existing PMEGP/MUDRA units with profit for the last 3 years. Also applicable to artisans",
-                question: "I need financial support to expand existing business for self-employment.",
-                keywords: ["expand existing business", "upgradation", "existing unit", "expansion"],
-                url: "https://www.kviconline.gov.in/pmegpeportal/",
-                funding: "Up to ₹1 crore",
-                processing: "45-60 days"
-            },
-            {
-                id: 3,
-                sector: "MSME",
-                name: "Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE)",
-                objective: "Provide collateral-free loans to MSEs.",
-                benefits: "Guarantee coverage up to 85% for loans up to Rs. 2 crores.",
-                eligibility: "Existing and aspiring entrepreneurs.",
-                question: "I need collateral free loans to start or expand business",
-                keywords: ["collateral free loans", "no collateral", "guarantee", "loans without security"],
-                url: "https://www.cgtmse.in/",
-                funding: "Up to ₹2 crores",
-                processing: "15-30 days"
-            },
-            {
-                id: 4,
-                sector: "MSME",
-                name: "Micro & Small Enterprises Cluster Development Programme (MSE-CDP)",
-                objective: "Support sustainability and growth of MSMEs through infrastructure development.",
-                benefits: "Creation of Common Facility Centers, infrastructure development support.",
-                eligibility: "Existing entrepreneurs (SPVs).",
-                question: "I want to set up Common Facility Centers and infrastructure for group of entrepreneurs or artisans",
-                keywords: ["common facility centers", "infrastructure", "group entrepreneurs", "cluster development"],
-                url: "https://msecdp.dcmsme.gov.in/",
-                funding: "Up to ₹15 crores",
-                processing: "60-90 days"
-            },
-            {
-                id: 5,
-                sector: "MSME",
-                name: "PM Vishwakarma",
-                objective: "Provide end to end support to artisans and craftspeople",
-                benefits: "Financial support for production facilities, skill development, tools and marketing.",
-                eligibility: "Artisans engaged in 18 listed trades. Not applicable to those who have already availed PMEGP",
-                question: "I am an artisan/craftsman and I need tools and financial support",
-                keywords: ["artisan", "craftsman", "tools", "traditional crafts", "vishwakarma"],
-                url: "https://pmvishwakarma.gov.in/",
-                funding: "Up to ₹3 lakhs",
-                processing: "20-30 days"
-            },
-            {
-                id: 6,
-                sector: "MSME",
-                name: "Entrepreneurship Skill Development Programme (ESDP)",
-                objective: "Promote entrepreneurship and skill development.",
-                benefits: "Training programs for entrepreneurship and skill development.",
-                eligibility: "Aspiring and existing entrepreneurs.",
-                question: "I want to undergo entrepreneurship or skill training",
-                keywords: ["entrepreneurship training", "skill training", "capacity building", "learning"],
-                url: "https://msmedi.dcmsme.gov.in/CalendarEvent.aspx",
-                funding: "Free training",
-                processing: "Immediate enrollment"
-            },
-            {
-                id: 16,
-                sector: "Food",
-                name: "Mega Food Parks",
-                objective: "Develop infrastructure for food processing units.",
-                benefits: "Creation of modern infrastructure facilities like cold storage, processing units, and logistics.",
-                eligibility: "Private companies, cooperatives, and government agencies.",
-                question: "I want to develop a mega food park",
-                keywords: ["mega food park", "food processing infrastructure", "large scale food"],
-                url: "https://pmfme.mofpi.gov.in/",
-                funding: "Up to ₹50 crores",
-                processing: "90-120 days"
-            },
-            {
-                id: 17,
-                sector: "Food",
-                name: "Integrated Cold Chain and Value Addition Infrastructure",
-                objective: "Reduce post-harvest losses and improve cold chain infrastructure.",
-                benefits: "Financial assistance for cold storage, refrigerated transport, and processing units.",
-                eligibility: "Private companies, cooperatives, and government agencies.",
-                question: "I want to build cold storage and transportation supply chain",
-                keywords: ["cold storage", "cold chain", "refrigerated transport", "supply chain"],
-                url: "https://pmfme.mofpi.gov.in/",
-                funding: "Up to ₹10 crores",
-                processing: "60-90 days"
-            },
-            {
-                id: 25,
-                sector: "Textiles",
-                name: "Amended Technology Upgradation Fund Scheme (ATUFS)",
-                objective: "Facilitate technology upgradation in the textile sector.",
-                benefits: "Capital subsidy for modernization of machinery and equipment.",
-                eligibility: "Textile units (spinning, weaving, processing, garmenting, etc.).",
-                question: "I want subsidy to upgrade technology and modernise my textile equipment",
-                keywords: ["textile technology", "modernization", "textile machinery", "equipment upgrade"],
-                url: "https://texmin.nic.in/",
-                funding: "Up to ₹30 crores",
-                processing: "45-75 days"
-            },
-            {
-                id: 27,
-                sector: "Textiles",
-                name: "National Handloom Development Programme (NHDP)",
-                objective: "Promote handloom sector and improve the livelihood of handloom weavers.",
-                benefits: "Financial assistance for raw materials, marketing, and infrastructure development.",
-                eligibility: "Handloom weavers, cooperatives, and state governments.",
-                question: "I want support as a handloom weaver",
-                keywords: ["handloom weaver", "handloom", "weaving", "traditional textiles"],
-                url: "https://handlooms.nic.in/",
-                funding: "Up to ₹2 lakhs",
-                processing: "30-45 days"
-            }
-        ];
+const SchemeSearchWizard = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [results, setResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-        const questions = [
-            {
-                id: 1,
-                question: "What is your primary business focus?",
-                subtitle: "Tell us about your entrepreneurial journey",
-                options: [
-                    { value: "new_business", label: "Starting a new business", icon: "🏭", description: "Launch your entrepreneurial venture" },
-                    { value: "existing_business", label: "Expanding existing business", icon: "📈", description: "Scale up your current operations" },
-                    { value: "artisan_crafts", label: "Traditional crafts/artisan work", icon: "🎨", description: "Preserve and promote traditional skills" },
-                    { value: "food_processing", label: "Food processing/agriculture", icon: "🌾", description: "Transform agricultural products" },
-                    { value: "textiles", label: "Textiles/handloom/handicrafts", icon: "✂️", description: "Create beautiful textile products" }
-                ]
-            },
-            {
-                id: 2,
-                question: "What type of support do you need most?",
-                subtitle: "Choose all forms of assistance that would help you",
-                options: [
-                    { value: "financial", label: "Financial support/loans", icon: "💰", description: "Capital for your business needs" },
-                    { value: "training", label: "Training and skill development", icon: "👥", description: "Enhance your capabilities" },
-                    { value: "infrastructure", label: "Infrastructure development", icon: "🏗️", description: "Build essential facilities" },
-                    { value: "marketing", label: "Marketing and export support", icon: "🚚", description: "Reach new markets globally" },
-                    { value: "technology", label: "Technology upgradation", icon: "🔧", description: "Modernize your operations" }
-                ]
-            },
-            {
-                id: 3,
-                question: "What best describes your current situation?",
-                subtitle: "Help us understand your background",
-                options: [
-                    { value: "new_entrepreneur", label: "New entrepreneur", icon: "🚀", description: "No existing business experience" },
-                    { value: "existing_profitable", label: "Existing profitable business", icon: "📈", description: "3+ years of profitable operations" },
-                    { value: "artisan_traditional", label: "Traditional artisan/craftsperson", icon: "🎨", description: "Skilled in traditional crafts" },
-                    { value: "sc_st", label: "SC/ST entrepreneur", icon: "🤝", description: "Scheduled Caste/Scheduled Tribe background" },
-                    { value: "rural_focus", label: "Rural/village business focus", icon: "🌾", description: "Operating in rural areas" }
-                ]
-            },
-            {
-                id: 4,
-                question: "Are you looking for any specific features?",
-                subtitle: "Select specialized requirements",
-                options: [
-                    { value: "collateral_free", label: "Collateral-free loans", icon: "🔓", description: "No security required" },
-                    { value: "export_market", label: "Export market entry", icon: "🌍", description: "International business opportunities" },
-                    { value: "cold_storage", label: "Cold storage/supply chain", icon: "❄️", description: "Preserve product quality" },
-                    { value: "common_facilities", label: "Common facility centers", icon: "🏢", description: "Shared infrastructure benefits" },
-                    { value: "technical_training", label: "Technical skills training", icon: "🔧", description: "Advanced skill development" }
-                ]
-            }
-        ];
+  const schemes = [
+    {
+      id: 1,
+      sector: "MSME",
+      name: "Prime Minister's Employment Generation Programme (PMEGP)",
+      objective: "Generate sustainable employment opportunities in rural and urban areas.",
+      benefits: "Margin Money subsidy (15%-35%), credit-linked subsidy for new micro-enterprises.",
+      eligibility: "Individuals above 18 years. Also applicable to artisans",
+      question: "I need financial support to start business for self-employment.",
+      keywords: ["financial support", "start business", "self-employment", "new business", "entrepreneur"],
+      url: "https://www.kviconline.gov.in/pmegpeportal/",
+      funding: "Up to ₹25 lakhs",
+      processing: "30-45 days"
+    },
+    {
+      id: 2,
+      sector: "MSME",
+      name: "2nd Loan for Upgradation of Existing PMEGP/MUDRA Units",
+      objective: "Assist existing units for expansion and upgradation.",
+      benefits: "15% subsidy (20% for NER and Hill States) for project cost.",
+      eligibility: "Existing PMEGP/MUDRA units with profit for the last 3 years. Also applicable to artisans",
+      question: "I need financial support to expand existing business for self-employment.",
+      keywords: ["expand existing business", "upgradation", "existing unit", "expansion"],
+      url: "https://www.kviconline.gov.in/pmegpeportal/",
+      funding: "Up to ₹1 crore",
+      processing: "45-60 days"
+    },
+    {
+      id: 3,
+      sector: "MSME",
+      name: "Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE)",
+      objective: "Provide collateral-free loans to MSEs.",
+      benefits: "Guarantee coverage up to 85% for loans up to Rs. 2 crores.",
+      eligibility: "Existing and aspiring entrepreneurs.",
+      question: "I need collateral free loans to start or expand business",
+      keywords: ["collateral free loans", "no collateral", "guarantee", "loans without security"],
+      url: "https://www.cgtmse.in/",
+      funding: "Up to ₹2 crores",
+      processing: "15-30 days"
+    },
+    {
+      id: 4,
+      sector: "MSME",
+      name: "Micro & Small Enterprises Cluster Development Programme (MSE-CDP)",
+      objective: "Support sustainability and growth of MSMEs through infrastructure development.",
+      benefits: "Creation of Common Facility Centers, infrastructure development support.",
+      eligibility: "Existing entrepreneurs (SPVs).",
+      question: "I want to set up Common Facility Centers and infrastructure for group of entrepreneurs or artisans",
+      keywords: ["common facility centers", "infrastructure", "group entrepreneurs", "cluster development"],
+      url: "https://msecdp.dcmsme.gov.in/",
+      funding: "Up to ₹15 crores",
+      processing: "60-90 days"
+    },
+    {
+      id: 5,
+      sector: "MSME",
+      name: "PM Vishwakarma",
+      objective: "Provide end to end support to artisans and craftspeople",
+      benefits: "Financial support for production facilities, skill development, tools and marketing.",
+      eligibility: "Artisans engaged in 18 listed trades. Not applicable to those who have already availed PMEGP",
+      question: "I am an artisan/craftsman and I need tools and financial support",
+      keywords: ["artisan", "craftsman", "tools", "traditional crafts", "vishwakarma"],
+      url: "https://pmvishwakarma.gov.in/",
+      funding: "Up to ₹3 lakhs",
+      processing: "20-30 days"
+    },
+    {
+      id: 6,
+      sector: "MSME",
+      name: "Entrepreneurship Skill Development Programme (ESDP)",
+      objective: "Promote entrepreneurship and skill development.",
+      benefits: "Training programs for entrepreneurship and skill development.",
+      eligibility: "Aspiring and existing entrepreneurs.",
+      question: "I want to undergo entrepreneurship or skill training",
+      keywords: ["entrepreneurship training", "skill training", "capacity building", "learning"],
+      url: "https://msmedi.dcmsme.gov.in/CalendarEvent.aspx",
+      funding: "Free training",
+      processing: "Immediate enrollment"
+    },
+    {
+      id: 16,
+      sector: "Food",
+      name: "Mega Food Parks",
+      objective: "Develop infrastructure for food processing units.",
+      benefits: "Creation of modern infrastructure facilities like cold storage, processing units, and logistics.",
+      eligibility: "Private companies, cooperatives, and government agencies.",
+      question: "I want to develop a mega food park",
+      keywords: ["mega food park", "food processing infrastructure", "large scale food"],
+      url: "https://pmfme.mofpi.gov.in/",
+      funding: "Up to ₹50 crores",
+      processing: "90-120 days"
+    },
+    {
+      id: 17,
+      sector: "Food",
+      name: "Integrated Cold Chain and Value Addition Infrastructure",
+      objective: "Reduce post-harvest losses and improve cold chain infrastructure.",
+      benefits: "Financial assistance for cold storage, refrigerated transport, and processing units.",
+      eligibility: "Private companies, cooperatives, and government agencies.",
+      question: "I want to build cold storage and transportation supply chain",
+      keywords: ["cold storage", "cold chain", "refrigerated transport", "supply chain"],
+      url: "https://pmfme.mofpi.gov.in/",
+      funding: "Up to ₹10 crores",
+      processing: "60-90 days"
+    },
+    {
+      id: 25,
+      sector: "Textiles",
+      name: "Amended Technology Upgradation Fund Scheme (ATUFS)",
+      objective: "Facilitate technology upgradation in the textile sector.",
+      benefits: "Capital subsidy for modernization of machinery and equipment.",
+      eligibility: "Textile units (spinning, weaving, processing, garmenting, etc.).",
+      question: "I want subsidy to upgrade technology and modernise my textile equipment",
+      keywords: ["textile technology", "modernization", "textile machinery", "equipment upgrade"],
+      url: "https://texmin.nic.in/",
+      funding: "Up to ₹30 crores",
+      processing: "45-75 days"
+    },
+    {
+      id: 27,
+      sector: "Textiles",
+      name: "National Handloom Development Programme (NHDP)",
+      objective: "Promote handloom sector and improve the livelihood of handloom weavers.",
+      benefits: "Financial assistance for raw materials, marketing, and infrastructure development.",
+      eligibility: "Handloom weavers, cooperatives, and state governments.",
+      question: "I want support as a handloom weaver",
+      keywords: ["handloom weaver", "handloom", "weaving", "traditional textiles"],
+      url: "https://handlooms.nic.in/",
+      funding: "Up to ₹2 lakhs",
+      processing: "30-45 days"
+    }
+  ];
 
-        // App state
-        let currentStep = 0;
-        let answers = [];
-        let results = [];
-        let isAnimating = false;
+  const questions = [
+    {
+      id: 1,
+      question: "What is your primary business focus?",
+      subtitle: "Tell us about your entrepreneurial journey",
+      type: "multiple",
+      options: [
+        { value: "new_business", label: "Starting a new business", icon: <Factory className="w-6 h-6" />, description: "Launch your entrepreneurial venture" },
+        { value: "existing_business", label: "Expanding existing business", icon: <ChevronRight className="w-6 h-6" />, description: "Scale up your current operations" },
+        { value: "artisan_crafts", label: "Traditional crafts/artisan work", icon: <Award className="w-6 h-6" />, description: "Preserve and promote traditional skills" },
+        { value: "food_processing", label: "Food processing/agriculture", icon: <Wheat className="w-6 h-6" />, description: "Transform agricultural products" },
+        { value: "textiles", label: "Textiles/handloom/handicrafts", icon: <Scissors className="w-6 h-6" />, description: "Create beautiful textile products" }
+      ]
+    },
+    {
+      id: 2,
+      question: "What type of support do you need most?",
+      subtitle: "Choose all forms of assistance that would help you",
+      type: "multiple",
+      options: [
+        { value: "financial", label: "Financial support/loans", icon: <FileText className="w-6 h-6" />, description: "Capital for your business needs" },
+        { value: "training", label: "Training and skill development", icon: <Users className="w-6 h-6" />, description: "Enhance your capabilities" },
+        { value: "infrastructure", label: "Infrastructure development", icon: <Factory className="w-6 h-6" />, description: "Build essential facilities" },
+        { value: "marketing", label: "Marketing and export support", icon: <Truck className="w-6 h-6" />, description: "Reach new markets globally" },
+        { value: "technology", label: "Technology upgradation", icon: <Search className="w-6 h-6" />, description: "Modernize your operations" }
+      ]
+    },
+    {
+      id: 3,
+      question: "What best describes your current situation?",
+      subtitle: "Help us understand your background",
+      type: "multiple",
+      options: [
+        { value: "new_entrepreneur", label: "New entrepreneur", icon: <Factory className="w-6 h-6" />, description: "No existing business experience" },
+        { value: "existing_profitable", label: "Existing profitable business", icon: <ChevronRight className="w-6 h-6" />, description: "3+ years of profitable operations" },
+        { value: "artisan_traditional", label: "Traditional artisan/craftsperson", icon: <Award className="w-6 h-6" />, description: "Skilled in traditional crafts" },
+        { value: "sc_st", label: "SC/ST entrepreneur", icon: <Users className="w-6 h-6" />, description: "Scheduled Caste/Scheduled Tribe background" },
+        { value: "rural_focus", label: "Rural/village business focus", icon: <Wheat className="w-6 h-6" />, description: "Operating in rural areas" }
+      ]
+    },
+    {
+      id: 4,
+      question: "Are you looking for any specific features?",
+      subtitle: "Select specialized requirements",
+      type: "multiple",
+      options: [
+        { value: "collateral_free", label: "Collateral-free loans", icon: <FileText className="w-6 h-6" />, description: "No security required" },
+        { value: "export_market", label: "Export market entry", icon: <Truck className="w-6 h-6" />, description: "International business opportunities" },
+        { value: "cold_storage", label: "Cold storage/supply chain", icon: <Factory className="w-6 h-6" />, description: "Preserve product quality" },
+        { value: "common_facilities", label: "Common facility centers", icon: <Users className="w-6 h-6" />, description: "Shared infrastructure benefits" },
+        { value: "technical_training", label: "Technical skills training", icon: <Search className="w-6 h-6" />, description: "Advanced skill development" }
+      ]
+    }
+  ];
 
-        // Helper functions
-        function getSectorColor(sector) {
-            switch (sector) {
-                case 'MSME': return 'sector-badge-msme';
-                case 'Food': return 'sector-badge-food';
-                case 'Textiles': return 'sector-badge-textiles';
-                default: return 'bg-gray-100 text-gray-800 border-gray-200';
-            }
+  const handleAnswer = (questionId, answer) => {
+    if (!answers[questionId - 1]) {
+      answers[questionId - 1] = [];
+    }
+    
+    const currentAnswers = answers[questionId - 1];
+    const answerIndex = currentAnswers.indexOf(answer);
+    
+    // Special logic for Question 1 - mutual exclusion between new_business and existing_business
+    if (questionId === 1) {
+      if (answer === 'new_business' || answer === 'existing_business') {
+        // Remove the other option if it exists
+        const otherOption = answer === 'new_business' ? 'existing_business' : 'new_business';
+        const otherIndex = currentAnswers.indexOf(otherOption);
+        if (otherIndex > -1) {
+          currentAnswers.splice(otherIndex, 1);
         }
+      }
+    }
+    
+    if (answerIndex > -1) {
+      currentAnswers.splice(answerIndex, 1);
+    } else {
+      currentAnswers.push(answer);
+    }
+    
+    setAnswers([...answers]);
+  };
 
-        function getSectorIcon(sector) {
-            switch (sector) {
-                case 'MSME': return '🏭';
-                case 'Food': return '🌾';
-                case 'Textiles': return '✂️';
-                default: return '📄';
-            }
-        }
+  const nextStep = () => {
+    if (currentStep < questions.length - 1) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentStep(currentStep + 1);
+        setIsAnimating(false);
+      }, 300);
+    } else {
+      calculateResults();
+    }
+  };
 
-        function calculateResults() {
-            const userAnswers = answers.flat();
-            const matchedSchemes = [];
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentStep(currentStep - 1);
+        setIsAnimating(false);
+      }, 300);
+    }
+  };
 
-            schemes.forEach(scheme => {
-                let score = 0;
-                
-                // Check for keyword matches
-                userAnswers.forEach(answer => {
-                    scheme.keywords.forEach(keyword => {
-                        if (answer.includes(keyword) || keyword.includes(answer)) {
-                            score += 2;
-                        }
-                    });
-                });
+  const calculateResults = () => {
+    const userAnswers = answers.flat();
+    const matchedSchemes = [];
 
-                // Business focus matching
-                if (userAnswers.includes('new_business') && scheme.keywords.some(k => k.includes('start') || k.includes('new'))) {
-                    score += 3;
-                }
-                if (userAnswers.includes('existing_business') && scheme.keywords.some(k => k.includes('expand') || k.includes('existing'))) {
-                    score += 3;
-                }
-                if (userAnswers.includes('artisan_crafts') && scheme.keywords.some(k => k.includes('artisan') || k.includes('craft'))) {
-                    score += 3;
-                }
-                if (userAnswers.includes('food_processing') && scheme.sector === 'Food') {
-                    score += 4;
-                }
-                if (userAnswers.includes('textiles') && scheme.sector === 'Textiles') {
-                    score += 4;
-                }
-
-                // Support type matching
-                if (userAnswers.includes('financial') && scheme.keywords.some(k => k.includes('financial') || k.includes('loan') || k.includes('subsidy'))) {
-                    score += 2;
-                }
-                if (userAnswers.includes('training') && scheme.keywords.some(k => k.includes('training') || k.includes('skill'))) {
-                    score += 2;
-                }
-                if (userAnswers.includes('infrastructure') && scheme.keywords.some(k => k.includes('infrastructure') || k.includes('facility'))) {
-                    score += 2;
-                }
-                if (userAnswers.includes('marketing') && scheme.keywords.some(k => k.includes('marketing') || k.includes('export') || k.includes('trade'))) {
-                    score += 2;
-                }
-
-                // Specific situation matching
-                if (userAnswers.includes('sc_st') && scheme.keywords.some(k => k.includes('SC/ST'))) {
-                    score += 5;
-                }
-                if (userAnswers.includes('collateral_free') && scheme.keywords.some(k => k.includes('collateral free'))) {
-                    score += 4;
-                }
-                if (userAnswers.includes('export_market') && scheme.keywords.some(k => k.includes('export') || k.includes('international'))) {
-                    score += 4;
-                }
-
-                if (score > 0) {
-                    matchedSchemes.push({ ...scheme, score });
-                }
-            });
-
-            // Sort by score and take top matches
-            results = matchedSchemes.sort((a, b) => b.score - a.score).slice(0, 6);
-            showResults();
-        }
-
-        function handleAnswer(questionId, answer) {
-            // Initialize answers array for this question if it doesn't exist
-            if (!answers[questionId - 1]) {
-                answers[questionId - 1] = [];
-            }
-            
-            // Toggle selection
-            const currentAnswers = answers[questionId - 1];
-            const answerIndex = currentAnswers.indexOf(answer);
-            
-            if (answerIndex > -1) {
-                // Remove if already selected
-                currentAnswers.splice(answerIndex, 1);
-            } else {
-                // Add if not selected
-                currentAnswers.push(answer);
-            }
-            
-            // Update visual feedback
-            const selectedButton = document.querySelector(`[data-value="${answer}"]`);
-            if (selectedButton) {
-                if (currentAnswers.includes(answer)) {
-                    selectedButton.classList.add('selected-card');
-                    selectedButton.classList.remove('border-gray-200');
-                    // Add checkmark if not exists
-                    if (!selectedButton.querySelector('.checkmark-container')) {
-                        const checkmarkDiv = document.createElement('div');
-                        checkmarkDiv.className = 'checkmark-container flex items-center space-x-2';
-                        checkmarkDiv.innerHTML = `
-                            <div class="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
-                                <span class="text-white text-sm">✓</span>
-                            </div>
-                            <span class="text-red-600 font-semibold text-sm">Selected</span>
-                        `;
-                        selectedButton.querySelector('.option-content').appendChild(checkmarkDiv);
-                    }
-                } else {
-                    selectedButton.classList.remove('selected-card');
-                    selectedButton.classList.add('border-gray-200');
-                    // Remove checkmark
-                    const checkmark = selectedButton.querySelector('.checkmark-container');
-                    if (checkmark) {
-                        checkmark.remove();
-                    }
-                }
-            }
-            
-            // Enable/disable next button
-            updateNavigationState();
-        }
-
-        function updateNavigationState() {
-            const nextBtn = document.getElementById('nextBtn');
-            const selectedCount = document.getElementById('selectedCount');
-            const currentAnswers = answers[currentStep] || [];
-            
-            if (nextBtn) {
-                if (currentAnswers.length > 0) {
-                    nextBtn.disabled = false;
-                    nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    nextBtn.classList.add('btn-primary');
-                } else {
-                    nextBtn.disabled = true;
-                    nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                    nextBtn.classList.remove('btn-primary');
-                }
-            }
-            
-            if (selectedCount) {
-                selectedCount.textContent = `${currentAnswers.length} option${currentAnswers.length !== 1 ? 's' : ''} selected`;
-            }
-        }
-
-        function nextStep() {
-            if (currentStep < questions.length - 1) {
-                setAnimating(true);
-                setTimeout(() => {
-                    currentStep++;
-                    renderQuestion();
-                    setAnimating(false);
-                }, 300);
-            } else {
-                calculateResults();
-            }
-        }
-
-        function prevStep() {
-            if (currentStep > 0) {
-                setAnimating(true);
-                setTimeout(() => {
-                    currentStep--;
-                    renderQuestion();
-                    setAnimating(false);
-                }, 300);
-            }
-        }
-
-        function setAnimating(animating) {
-            isAnimating = animating;
-            const questionContainer = document.getElementById('questionContainer');
-            if (questionContainer) {
-                if (animating) {
-                    questionContainer.classList.add('opacity-0', 'transform', 'translate-x-4');
-                } else {
-                    questionContainer.classList.remove('opacity-0', 'transform', 'translate-x-4');
-                    questionContainer.classList.add('animate-slide-in');
-                }
-            }
-        }
-
-        function resetWizard() {
-            currentStep = 0;
-            answers = [];
-            results = [];
-            renderQuestion();
-        }
-
-        function renderQuestion() {
-            const app = document.getElementById('app');
-            const question = questions[currentStep];
-            const progress = ((currentStep + 1) / questions.length) * 100;
-            const currentAnswers = answers[currentStep] || [];
-
-            app.innerHTML = `
-                <div class="min-h-screen gradient-bg">
-                    <div class="max-w-4xl mx-auto p-6">
-                        <!-- Header -->
-                        <div class="text-center mb-12 animate-fade-in">
-                            <h1 class="text-4xl font-bold text-gray-900 mb-2">Scheme Wizard</h1>
-                            <p class="text-xl text-gray-600">Department of Industries & Commerce, Government of Nagaland</p>
-                            <p class="text-lg text-gray-500 mt-2">Discover the perfect schemes for your business journey</p>
-                        </div>
-
-                        <!-- Progress Section -->
-                        <div class="mb-12">
-                            <div class="flex items-center justify-between mb-4">
-                                <h2 class="text-lg font-semibold text-gray-700">Progress</h2>
-                                <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                                    Step ${currentStep + 1} of ${questions.length}
-                                </span>
-                            </div>
-                            
-                            <div class="w-full bg-gray-200 rounded-full h-3 mb-6 overflow-hidden">
-                                <div class="progress-red h-3 rounded-full progress-bar" style="width: ${progress}%"></div>
-                            </div>
-                        </div>
-
-                        <!-- Question Section -->
-                        <div id="questionContainer" class="transition-all duration-300">
-                            <div class="bg-white rounded-2xl card-shadow border border-gray-100 p-8 mb-8">
-                                <div class="text-center mb-8">
-                                    <h2 class="text-3xl font-bold text-gray-900 mb-3">${question.question}</h2>
-                                    <p class="text-lg text-gray-600">${question.subtitle}</p>
-                                    <div class="mt-4 inline-flex items-center px-4 py-2 red-light rounded-full text-sm font-medium">
-                                        <div class="w-4 h-4 bg-red-600 rounded-full flex items-center justify-center mr-2">
-                                            <span class="text-white text-xs">✓</span>
-                                        </div>
-                                        You can select multiple options
-                                    </div>
-                                </div>
-                                
-                                <div class="grid gap-4 max-w-4xl mx-auto">
-                                    ${question.options.map(option => {
-                                        const isSelected = currentAnswers.includes(option.value);
-                                        return `
-                                            <button
-                                                data-value="${option.value}"
-                                                onclick="handleAnswer(${question.id}, '${option.value}')"
-                                                class="group relative p-6 text-left border-2 rounded-xl option-card hover-lift ${
-                                                    isSelected ? 'selected-card' : 'border-gray-200 bg-white'
-                                                }"
-                                            >
-                                                <div class="option-content flex items-center justify-between">
-                                                    <div class="flex items-center space-x-4">
-                                                        <div class="p-3 rounded-xl transition-all duration-300 ${
-                                                            isSelected ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white'
-                                                        }">
-                                                            <span class="text-2xl">${option.icon}</span>
-                                                        </div>
-                                                        <div>
-                                                            <h3 class="font-semibold text-lg text-gray-900 mb-1">${option.label}</h3>
-                                                            ${option.description ? `<p class="text-gray-600">${option.description}</p>` : ''}
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    ${isSelected ? `
-                                                        <div class="checkmark-container flex items-center space-x-2">
-                                                            <div class="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
-                                                                <span class="text-white text-sm">✓</span>
-                                                            </div>
-                                                            <span class="text-red-600 font-semibold text-sm">Selected</span>
-                                                        </div>
-                                                    ` : ''}
-                                                </div>
-                                            </button>
-                                        `;
-                                    }).join('')}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Navigation -->
-                        <div class="flex justify-between items-center">
-                            <button
-                                onclick="prevStep()"
-                                ${currentStep === 0 ? 'disabled' : ''}
-                                class="flex items-center space-x-2 px-8 py-4 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-md"
-                            >
-                                <span>←</span>
-                                <span>Previous</span>
-                            </button>
-
-                            <div class="text-center">
-                                <p id="selectedCount" class="text-sm text-gray-500 mb-2">
-                                    ${currentAnswers.length} option${currentAnswers.length !== 1 ? 's' : ''} selected
-                                </p>
-                            </div>
-
-                            <button
-                                id="nextBtn"
-                                onclick="nextStep()"
-                                ${currentAnswers.length === 0 ? 'disabled' : ''}
-                                class="flex items-center space-x-2 px-8 py-4 text-white rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${currentAnswers.length === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400' : 'btn-primary'}"
-                            >
-                                <span>${currentStep === questions.length - 1 ? 'Find My Schemes' : 'Next Question'}</span>
-                                <span>→</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function showResults() {
-            const app = document.getElementById('app');
-            const userAnswers = answers.flat();
-            
-            app.innerHTML = `
-                <div class="min-h-screen gradient-bg">
-                    <div class="max-w-6xl mx-auto p-6">
-                        <!-- Header -->
-                        <div class="text-center mb-12 animate-fade-in">
-                            <div class="inline-flex items-center justify-center w-16 h-16 red-accent rounded-full mb-6">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                    <span class="text-red-600 font-bold">✓</span>
-                                </div>
-                            </div>
-                            <h1 class="text-4xl font-bold text-gray-900 mb-4">Perfect Matches Found!</h1>
-                            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                                Based on your ${userAnswers.length} selected preferences, we've found the most suitable government schemes for you.
-                            </p>
-                            
-                            <!-- Selected Preferences -->
-                            <div class="mt-8 flex flex-wrap justify-center gap-3">
-                                ${userAnswers.map(answer => `
-                                    <span class="px-4 py-2 red-light rounded-full text-sm font-medium border border-red-200">
-                                        ${answer.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                                    </span>
-                                `).join('')}
-                            </div>
-                        </div>
-
-                        <!-- Results -->
-                        ${results.length > 0 ? `
-                            <div class="space-y-8 mb-12">
-                                ${results.map((scheme, index) => `
-                                    <div class="group bg-white border border-gray-200 rounded-2xl p-8 scheme-card animate-fade-in" style="animation-delay: ${index * 0.1}s">
-                                        <!-- Header -->
-                                        <div class="flex items-start justify-between mb-6">
-                                            <div class="flex items-center space-x-4">
-                                                <div class="p-3 rounded-xl bg-gradient-to-r ${scheme.sector === 'MSME' ? 'from-red-600 to-red-700' : scheme.sector === 'Food' ? 'from-green-500 to-green-600' : 'from-purple-500 to-purple-600'}">
-                                                    <span class="text-white text-2xl">${getSectorIcon(scheme.sector)}</span>
-                                                </div>
-                                                <div>
-                                                    <span class="inline-block px-4 py-2 rounded-full text-sm font-semibold border ${getSectorColor(scheme.sector)}">
-                                                        ${scheme.sector}
-                                                    </span>
-                                                    ${index === 0 ? `
-                                                        <span class="ml-3 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">
-                                                            <span class="mr-1">⭐</span>
-                                                            Best Match
-                                                        </span>
-                                                    ` : ''}
-                                                </div>
-                                            </div>
-                                            <div class="text-right">
-                                                <div class="flex items-center space-x-2 mb-2">
-                                                    <span class="text-sm text-gray-500">Match Score:</span>
-                                                    <span class="match-score text-white px-3 py-1 rounded-full text-sm font-bold">
-                                                        ${Math.min(100, Math.round((scheme.score / 10) * 100))}%
-                                                    </span>
-                                                </div>
-                                                <div class="text-sm text-gray-500">
-                                                    Processing: ${scheme.processing}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Title -->
-                                        <h3 class="text-2xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors">
-                                            <a 
-                                                href="${scheme.url}" 
-                                                target="_blank" 
-                                                rel="noopener noreferrer"
-                                                class="hover:underline inline-flex items-center"
-                                            >
-                                                ${scheme.name}
-                                                <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">🔗</span>
-                                            </a>
-                                        </h3>
-                                        
-                                        <p class="text-gray-700 mb-6 text-lg leading-relaxed">${scheme.objective}</p>
-                                        
-                                        <!-- Details Grid -->
-                                        <div class="grid md:grid-cols-3 gap-6 mb-6">
-                                            <div class="bg-gray-50 rounded-xl p-4">
-                                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
-                                                    <span class="mr-2">📋</span>
-                                                    Key Benefits
-                                                </h4>
-                                                <p class="text-gray-600">${scheme.benefits}</p>
-                                            </div>
-                                            <div class="bg-gray-50 rounded-xl p-4">
-                                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
-                                                    <span class="mr-2">👥</span>
-                                                    Eligibility
-                                                </h4>
-                                                <p class="text-gray-600">${scheme.eligibility}</p>
-                                            </div>
-                                            <div class="bg-gray-50 rounded-xl p-4">
-                                                <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
-                                                    <span class="mr-2">💰</span>
-                                                    Funding
-                                                </h4>
-                                                <p class="text-gray-600 font-semibold">${scheme.funding}</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Perfect Match Indicator -->
-                                        <div class="bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-xl p-4">
-                                            <p class="text-red-800 font-medium flex items-center">
-                                                <div class="w-5 h-5 bg-red-600 rounded-full flex items-center justify-center mr-2">
-                                                    <span class="text-white text-xs">✓</span>
-                                                </div>
-                                                Perfect if: ${scheme.question}
-                                            </p>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : `
-                            <div class="text-center py-16">
-                                <div class="bg-gray-100 rounded-full p-8 w-32 h-32 mx-auto mb-6">
-                                    <span class="text-6xl">🔍</span>
-                                </div>
-                                <h3 class="text-2xl font-semibold text-gray-900 mb-4">No Perfect Matches Found</h3>
-                                <p class="text-gray-600 mb-8 max-w-md mx-auto">
-                                    Don't worry! Try adjusting your preferences to discover more suitable schemes for your needs.
-                                </p>
-                            </div>
-                        `}
-
-                        <!-- Action Buttons -->
-                        <div class="text-center space-y-4">
-                            <button
-                                onclick="resetWizard()"
-                                class="primary-red px-10 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mr-4"
-                            >
-                                Start New Search
-                            </button>
-                            <button
-                                onclick="window.location.reload()"
-                                class="bg-gray-600 hover:bg-gray-700 text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                            >
-                                🏠 Home
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            renderQuestion();
+    schemes.forEach(scheme => {
+      let score = 0;
+      
+      userAnswers.forEach(answer => {
+        scheme.keywords.forEach(keyword => {
+          if (answer.includes(keyword) || keyword.includes(answer)) {
+            score += 2;
+          }
         });
-    </script>
-</body>
-</html>
+      });
+
+      if (userAnswers.includes('new_business') && scheme.keywords.some(k => k.includes('start') || k.includes('new'))) {
+        score += 3;
+      }
+      if (userAnswers.includes('existing_business') && scheme.keywords.some(k => k.includes('expand') || k.includes('existing'))) {
+        score += 3;
+      }
+      if (userAnswers.includes('artisan_crafts') && scheme.keywords.some(k => k.includes('artisan') || k.includes('craft'))) {
+        score += 3;
+      }
+      if (userAnswers.includes('food_processing') && scheme.sector === 'Food') {
+        score += 4;
+      }
+      if (userAnswers.includes('textiles') && scheme.sector === 'Textiles') {
+        score += 4;
+      }
+
+      if (userAnswers.includes('financial') && scheme.keywords.some(k => k.includes('financial') || k.includes('loan') || k.includes('subsidy'))) {
+        score += 2;
+      }
+      if (userAnswers.includes('training') && scheme.keywords.some(k => k.includes('training') || k.includes('skill'))) {
+        score += 2;
+      }
+      if (userAnswers.includes('infrastructure') && scheme.keywords.some(k => k.includes('infrastructure') || k.includes('facility'))) {
+        score += 2;
+      }
+      if (userAnswers.includes('marketing') && scheme.keywords.some(k => k.includes('marketing') || k.includes('export') || k.includes('trade'))) {
+        score += 2;
+      }
+
+      if (userAnswers.includes('sc_st') && scheme.keywords.some(k => k.includes('SC/ST'))) {
+        score += 5;
+      }
+      if (userAnswers.includes('collateral_free') && scheme.keywords.some(k => k.includes('collateral free'))) {
+        score += 4;
+      }
+      if (userAnswers.includes('export_market') && scheme.keywords.some(k => k.includes('export') || k.includes('international'))) {
+        score += 4;
+      }
+
+      if (score > 0) {
+        matchedSchemes.push({ ...scheme, score });
+      }
+    });
+
+    const sortedResults = matchedSchemes.sort((a, b) => b.score - a.score).slice(0, 6);
+    setResults(sortedResults);
+    setShowResults(true);
+  };
+
+  const resetWizard = () => {
+    setCurrentStep(0);
+    setAnswers([]);
+    setResults([]);
+    setShowResults(false);
+  };
+
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
+  const getSectorIcon = (sector) => {
+    switch (sector) {
+      case 'MSME': return <Factory className="w-6 h-6" />;
+      case 'Food': return <Wheat className="w-6 h-6" />;
+      case 'Textiles': return <Scissors className="w-6 h-6" />;
+      default: return <FileText className="w-6 h-6" />;
+    }
+  };
+
+  const getSectorColor = (sector) => {
+    switch (sector) {
+      case 'MSME': return 'bg-red-50 text-red-700 border-red-200';
+      case 'Food': return 'bg-green-50 text-green-700 border-green-200';
+      case 'Textiles': return 'bg-purple-50 text-purple-700 border-purple-200';
+      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+    }
+  };
+
+  const getSectorGradient = (sector) => {
+    switch (sector) {
+      case 'MSME': return 'from-red-600 to-red-700';
+      case 'Food': return 'from-green-500 to-green-600';
+      case 'Textiles': return 'from-purple-500 to-purple-600';
+      default: return 'from-gray-500 to-gray-600';
+    }
+  };
+
+  if (showResults) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-red-50">
+        <div className="max-w-6xl mx-auto p-6">
+          {/* Header Navigation */}
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex space-x-4">
+              <button
+                onClick={resetWizard}
+                className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                Start New Search
+              </button>
+              <button
+                onClick={refreshPage}
+                className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center"
+              >
+                <Home className="w-4 h-4 mr-2" />
+                Home
+              </button>
+            </div>
+          </div>
+
+          {/* Header */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-full mb-6">
+              <CheckCircle className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">Perfect Matches Found!</h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Based on your {answers.flat().length} selected preferences, we've found the most suitable government schemes for you.
+            </p>
+            
+            {/* Selected Preferences */}
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              {answers.flat().map((answer, index) => (
+                <span key={index} className="px-4 py-2 bg-red-100 text-red-800 rounded-full text-sm font-medium border border-red-200">
+                  {answer.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Results */}
+          {results.length > 0 ? (
+            <div className="space-y-8 mb-12">
+              {results.map((scheme, index) => (
+                <div key={scheme.id} className="group bg-white border border-gray-200 rounded-2xl p-8 hover:shadow-2xl hover:border-red-300 transition-all duration-300 transform hover:-translate-y-1">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-3 rounded-xl bg-gradient-to-r ${getSectorGradient(scheme.sector)}`}>
+                        <div className="text-white">
+                          {getSectorIcon(scheme.sector)}
+                        </div>
+                      </div>
+                      <div>
+                        <span className={`inline-block px-4 py-2 rounded-full text-sm font-semibold border ${getSectorColor(scheme.sector)}`}>
+                          {scheme.sector}
+                        </span>
+                        {index === 0 && (
+                          <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">
+                            <Star className="w-3 h-3 mr-1" />
+                            Best Match
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <span className="text-sm text-gray-500">Match Score:</span>
+                        <span className="bg-gradient-to-r from-red-500 to-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                          {Math.min(100, Math.round((scheme.score / 10) * 100))}%
+                        </span>
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        Processing: {scheme.processing}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Title */}
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors">
+                    <a 
+                      href={scheme.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:underline inline-flex items-center"
+                    >
+                      {scheme.name}
+                      <ExternalLink className="w-5 h-5 ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                  </h3>
+                  
+                  <p className="text-gray-700 mb-6 text-lg leading-relaxed">{scheme.objective}</p>
+                  
+                  {/* Details Grid */}
+                  <div className="grid md:grid-cols-3 gap-6 mb-6">
+                    <div className="bg-gray-50 rounded-xl p-4">
+                      <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+                        <FileText className="w-4 h-4 mr-2 text-red-600" />
+                        Key Benefits
+                      </h4>
+                      <p className="text-gray-600">{scheme.benefits}</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-xl p-4">
+                      <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+                        <Users className="w-4 h-4 mr-2 text-green-600" />
+                        Eligibility
+                      </h4>
+                      <p className="text-gray-600">{scheme.eligibility}</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-xl p-4">
+                      <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+                        <Award className="w-4 h-4 mr-2 text-purple-600" />
+                        Funding
+                      </h4>
+                      <p className="text-gray-600 font-semibold">{scheme.funding}</p>
+                    </div>
+                  </div>
+                  
+                  {/* Perfect Match Indicator */}
+                  <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-xl p-4">
+                    <p className="text-red-800 font-medium flex items-center">
+                      <CheckCircle className="w-5 h-5 mr-2 text-red-600" />
+                      Perfect if: {scheme.question}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <div className="bg-gray-100 rounded-full p-8 w-32 h-32 mx-auto mb-6">
+                <Search className="w-16 h-16 text-gray-400 mx-auto" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">No Perfect Matches Found</h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                Don't worry! Try adjusting your preferences to discover more suitable schemes for your needs.
+              </p>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="text-center space-y-4">
+            <button
+              onClick={resetWizard}
+              className="bg-gradient-to-r from-red-600 to-red-700 text-white px-10 py-4 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mr-4"
+            >
+              Start New Search
+            </button>
+            <button
+              onClick={refreshPage}
+              className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-10 py-4 rounded-xl font-semibold hover:from-gray-700 hover:to-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center"
+            >
+              <Home className="w-5 h-5 mr-2" />
+              Home
+            </button>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center mt-12 pt-8 border-t border-gray-200">
+            <p className="text-gray-500 text-sm">Developed by Kikonic Tech</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const currentQuestion = questions[currentStep];
+  const progress = ((currentStep + 1) / questions.length) * 100;
+  const currentAnswers = answers[currentStep] || [];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-red-50">
+      <div className="max-w-4xl mx-auto p-6">
+        {/* Header Navigation */}
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex space-x-4">
+            <button
+              onClick={resetWizard}
+              className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              Start New Search
+            </button>
+            <button
+              onClick={refreshPage}
+              className="bg-gradient-to-r from-gray-600 to-gray-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg inline-flex items-center"
+            >
+              <Home className="w-4 h-4 mr-2" />
+              Home
+            </button>
+          </div>
+        </div>
+
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">Scheme Wizard</h1>
+          <p className="text-xl text-gray-600">Department of Industries & Commerce, Government of Nagaland</p>
+          <p className="text-lg text-gray-500 mt-2">Discover the perfect schemes for your business journey</p>
+        </div>
+
+        {/* Progress Section */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-700">Progress</h2>
+            <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+              Step {currentStep + 1} of {questions.length}
+            </span>
+          </div>
+          
+          <div className="w-full bg-gray-200 rounded-full h-3 mb-6 overflow-hidden">
+            <div 
+              className="bg-gradient-to-r from-red-500 to-red-600 h-3 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Question Section */}
+        <div className={`transition-all duration-300 ${isAnimating ? 'opacity-0 transform translate-x-4' : 'opacity-100 transform translate-x-0'}`}>
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 mb-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">{currentQuestion.question}</h2>
+              <p className="text-lg text-gray-600">{currentQuestion.subtitle}</p>
+              <div className="mt-4 inline-flex items-center px-4 py-2 bg-red-50 text-red-700 rounded-full text-sm font-medium border border-red-200">
+                <CheckCircle className="w-4 h-4 mr-2" />
+                You can select multiple options
+              </div>
+            </div>
+            
+            <div className="grid gap-4 max-w-4xl mx-auto">
+              {currentQuestion.options.map((option) => {
+                const isSelected = currentAnswers.includes(option.value);
+                return (
+                  <button
+                    key={option.value}
+                    onClick={() => handleAnswer(currentQuestion.id, option.value)}
+                    className={`group relative p-6 text-left border-2 rounded-xl transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 ${
+                      isSelected
+                        ? 'border-red-500 bg-gradient-to-r from-red-50 to-red-100 shadow-md'
+                        : 'border-gray-200 bg-white hover:border-red-300 hover:bg-red-50'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className={`p-3 rounded-xl transition-all duration-300 ${
+                          isSelected ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 group-hover:bg-red-600 group-hover:text-white'
+                        }`}>
+                          {option.icon}
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-lg text-gray-900 mb-1">{option.label}</h3>
+                          {option.description && (
+                            <p className="text-gray-600">{option.description}</p>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {isSelected && (
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle className="w-6 h-6 text-red-600" />
+                          <span className="text-red-600 font-semibold">Selected</span>
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex justify-between items-center">
+          <button
+            onClick={prevStep}
+            disabled={currentStep === 0}
+            className="flex items-center space-x-2 px-8 py-4 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-md"
+          >
+            <ChevronLeft className="w-5 h-5" />
+            <span>Previous</span>
+          </button>
+
+          <div className="text-center">
+            <p className="text-sm text-gray-500 mb-2">
+              {currentAnswers.length} option{currentAnswers.length !== 1 ? 's' : ''} selected
+            </p>
+          </div>
+
+          <button
+            onClick={nextStep}
+            disabled={currentAnswers.length === 0}
+            className="flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-semibold hover:from-red-700 hover:to-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          >
+            <span>{currentStep === questions.length - 1 ? 'Find My Schemes' : 'Next Question'}</span>
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12 pt-8 border-t border-gray-200">
+          <p className="text-gray-500 text-sm">Developed by Kikonic Tech</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SchemeSearchWizard;

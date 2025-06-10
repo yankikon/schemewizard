@@ -139,7 +139,8 @@
                 keywords: ["financial support", "start business", "self-employment", "new business", "entrepreneur"],
                 url: "https://www.kviconline.gov.in/pmegpeportal/",
                 funding: "Up to ₹25 lakhs",
-                        },
+                processing: "30-45 days"
+            },
             {
                 id: 2,
                 sector: "MSME",
@@ -151,7 +152,7 @@
                 keywords: ["expand existing business", "upgradation", "existing unit", "expansion"],
                 url: "https://www.kviconline.gov.in/pmegpeportal/",
                 funding: "Up to ₹1 crore",
-                
+                processing: "45-60 days"
             },
             {
                 id: 3,
@@ -164,7 +165,7 @@
                 keywords: ["collateral free loans", "no collateral", "guarantee", "loans without security"],
                 url: "https://www.cgtmse.in/",
                 funding: "Up to ₹2 crores",
-               
+                processing: "15-30 days"
             },
             {
                 id: 4,
@@ -177,7 +178,7 @@
                 keywords: ["common facility centers", "infrastructure", "group entrepreneurs", "cluster development"],
                 url: "https://msecdp.dcmsme.gov.in/",
                 funding: "Up to ₹15 crores",
-                
+                processing: "60-90 days"
             },
             {
                 id: 5,
@@ -190,7 +191,7 @@
                 keywords: ["artisan", "craftsman", "tools", "traditional crafts", "vishwakarma"],
                 url: "https://pmvishwakarma.gov.in/",
                 funding: "Up to ₹3 lakhs",
-               
+                processing: "20-30 days"
             },
             {
                 id: 6,
@@ -203,7 +204,7 @@
                 keywords: ["entrepreneurship training", "skill training", "capacity building", "learning"],
                 url: "https://msmedi.dcmsme.gov.in/CalendarEvent.aspx",
                 funding: "Free training",
-              
+                processing: "Immediate enrollment"
             },
             {
                 id: 16,
@@ -216,7 +217,8 @@
                 keywords: ["mega food park", "food processing infrastructure", "large scale food"],
                 url: "https://pmfme.mofpi.gov.in/",
                 funding: "Up to ₹50 crores",
-                          },
+                processing: "90-120 days"
+            },
             {
                 id: 17,
                 sector: "Food",
@@ -228,7 +230,8 @@
                 keywords: ["cold storage", "cold chain", "refrigerated transport", "supply chain"],
                 url: "https://pmfme.mofpi.gov.in/",
                 funding: "Up to ₹10 crores",
-                           },
+                processing: "60-90 days"
+            },
             {
                 id: 25,
                 sector: "Textiles",
@@ -240,7 +243,8 @@
                 keywords: ["textile technology", "modernization", "textile machinery", "equipment upgrade"],
                 url: "https://texmin.nic.in/",
                 funding: "Up to ₹30 crores",
-                            },
+                processing: "45-75 days"
+            },
             {
                 id: 27,
                 sector: "Textiles",
@@ -252,7 +256,8 @@
                 keywords: ["handloom weaver", "handloom", "weaving", "traditional textiles"],
                 url: "https://handlooms.nic.in/",
                 funding: "Up to ₹2 lakhs",
-                         }
+                processing: "30-45 days"
+            }
         ];
 
         const questions = [
@@ -757,7 +762,10 @@
                                                         ${Math.min(100, Math.round((scheme.score / 10) * 100))}%
                                                     </span>
                                                 </div>
-                                             
+                                                <div class="text-sm text-gray-500">
+                                                    Processing: ${scheme.processing}
+                                                </div>
+                                            </div>
                                         </div>
                                         
                                         <!-- Title -->

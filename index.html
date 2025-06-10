@@ -257,6 +257,19 @@
                 url: "https://handlooms.nic.in/",
                 funding: "Up to ₹2 lakhs",
                 processing: "30-45 days"
+            },
+            {
+                id: 9,
+                sector: "MSME",
+                name: "National SC-ST Hub Scheme",
+                objective: "Support SC/ST entrepreneurs in public procurement and business development.",
+                benefits: "25% subsidy on plant & machinery, marketing support, and skill development.",
+                eligibility: "Aspiring and existing SC/ST entrepreneurs.",
+                question: "I am SC/ST entrepreneur and need additional support in central government tenders and procurements",
+                keywords: ["SC/ST", "scheduled caste", "scheduled tribe", "government tenders", "procurement"],
+                url: "https://scsthub.in/",
+                funding: "Up to ₹10 lakhs",
+                processing: "45-60 days"
             }
         ];
 
@@ -384,7 +397,7 @@
                 }
 
                 // Specific situation matching
-                if (userAnswers.includes('sc_st') && scheme.keywords.some(k => k.includes('SC/ST'))) {
+                if (userAnswers.includes('sc_st') && scheme.keywords.some(k => k.includes('SC/ST') || k.includes('scheduled caste') || k.includes('scheduled tribe'))) {
                     score += 5;
                 }
                 if (userAnswers.includes('collateral_free') && scheme.keywords.some(k => k.includes('collateral free'))) {

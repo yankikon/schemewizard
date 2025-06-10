@@ -257,19 +257,6 @@
                 url: "https://handlooms.nic.in/",
                 funding: "Up to ₹2 lakhs",
                 processing: "30-45 days"
-            },
-            {
-                id: 9,
-                sector: "MSME",
-                name: "National SC-ST Hub Scheme",
-                objective: "Support SC/ST entrepreneurs in public procurement and business development.",
-                benefits: "25% subsidy on plant & machinery, marketing support, and skill development.",
-                eligibility: "Aspiring and existing SC/ST entrepreneurs.",
-                question: "I am SC/ST entrepreneur and need additional support in central government tenders and procurements",
-                keywords: ["SC/ST", "scheduled caste", "scheduled tribe", "government tenders", "procurement"],
-                url: "https://scsthub.in/",
-                funding: "Up to ₹10 lakhs",
-                processing: "45-60 days"
             }
         ];
 
@@ -397,7 +384,7 @@
                 }
 
                 // Specific situation matching
-                if (userAnswers.includes('sc_st') && scheme.keywords.some(k => k.includes('SC/ST') || k.includes('scheduled caste') || k.includes('scheduled tribe'))) {
+                if (userAnswers.includes('sc_st') && scheme.keywords.some(k => k.includes('SC/ST'))) {
                     score += 5;
                 }
                 if (userAnswers.includes('collateral_free') && scheme.keywords.some(k => k.includes('collateral free'))) {
@@ -846,7 +833,7 @@
                         `}
 
                         <!-- Action Buttons -->
-                        <div class="text-center space-y-4 mb-12">
+                        <div class="text-center space-y-4">
                             <button
                                 onclick="resetWizard()"
                                 class="primary-red px-10 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mr-4"
@@ -859,148 +846,6 @@
                             >
                                 🏠 Home
                             </button>
-                        </div>
-
-                        <!-- Complete Schemes Table -->
-                        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 mb-8">
-                            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">All Available Government Schemes</h2>
-                            <p class="text-gray-600 text-center mb-8">Browse all schemes by business category</p>
-                            
-                            <div class="overflow-x-auto">
-                                <table class="w-full border-collapse">
-                                    <thead>
-                                        <tr class="bg-gray-50">
-                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold text-gray-900">Business Focus</th>
-                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold text-gray-900">Scheme Name</th>
-                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold text-gray-900">Sector</th>
-                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold text-gray-900">Funding</th>
-                                            <th class="border border-gray-200 px-4 py-3 text-left font-semibold text-gray-900">Link</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- New Business Category -->
-                                        <tr class="bg-blue-50">
-                                            <td colspan="5" class="border border-gray-200 px-4 py-3 font-bold text-blue-800">🏭 Starting a New Business</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Prime Minister's Employment Generation Programme (PMEGP)</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹25 lakhs</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://www.kviconline.gov.in/pmegpeportal/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Credit Guarantee Scheme for Micro & Small Enterprises (CGTMSE)</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹2 crores</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://www.cgtmse.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">National SC-ST Hub Scheme</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹10 lakhs</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://scsthub.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        
-                                        <!-- Existing Business Category -->
-                                        <tr class="bg-green-50">
-                                            <td colspan="5" class="border border-gray-200 px-4 py-3 font-bold text-green-800">📈 Expanding Existing Business</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">2nd Loan for Upgradation of Existing PMEGP/MUDRA Units</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹1 crore</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://www.kviconline.gov.in/pmegpeportal/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Micro & Small Enterprises Cluster Development Programme (MSE-CDP)</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹15 crores</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://msecdp.dcmsme.gov.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        
-                                        <!-- Artisan/Crafts Category -->
-                                        <tr class="bg-purple-50">
-                                            <td colspan="5" class="border border-gray-200 px-4 py-3 font-bold text-purple-800">🎨 Traditional Crafts/Artisan Work</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">PM Vishwakarma</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹3 lakhs</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://pmvishwakarma.gov.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Khadi Gramodyog Vikas Yojana</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Varies</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://kvic.gov.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">National Handicrafts Development Programme (NHDP)</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-textiles px-2 py-1 rounded-full text-xs font-medium border">Textiles</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Varies</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://handicrafts.nic.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        
-                                        <!-- Food Processing Category -->
-                                        <tr class="bg-yellow-50">
-                                            <td colspan="5" class="border border-gray-200 px-4 py-3 font-bold text-yellow-800">🌾 Food Processing/Agriculture</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Mega Food Parks</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-food px-2 py-1 rounded-full text-xs font-medium border">Food</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹50 crores</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://pmfme.mofpi.gov.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Integrated Cold Chain and Value Addition Infrastructure</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-food px-2 py-1 rounded-full text-xs font-medium border">Food</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹10 crores</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://pmfme.mofpi.gov.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        
-                                        <!-- Textiles Category -->
-                                        <tr class="bg-pink-50">
-                                            <td colspan="5" class="border border-gray-200 px-4 py-3 font-bold text-pink-800">✂️ Textiles/Handloom/Handicrafts</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Amended Technology Upgradation Fund Scheme (ATUFS)</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-textiles px-2 py-1 rounded-full text-xs font-medium border">Textiles</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹30 crores</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://texmin.nic.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">National Handloom Development Programme (NHDP)</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-textiles px-2 py-1 rounded-full text-xs font-medium border">Textiles</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Up to ₹2 lakhs</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://handlooms.nic.in/" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                        
-                                        <!-- General/Training Category -->
-                                        <tr class="bg-gray-50">
-                                            <td colspan="5" class="border border-gray-200 px-4 py-3 font-bold text-gray-800">🎓 Training & Skill Development</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border border-gray-200 px-4 py-2"></td>
-                                            <td class="border border-gray-200 px-4 py-2">Entrepreneurship Skill Development Programme (ESDP)</td>
-                                            <td class="border border-gray-200 px-4 py-2"><span class="sector-badge-msme px-2 py-1 rounded-full text-xs font-medium border">MSME</span></td>
-                                            <td class="border border-gray-200 px-4 py-2 font-semibold">Free training</td>
-                                            <td class="border border-gray-200 px-4 py-2"><a href="https://msmedi.dcmsme.gov.in/CalendarEvent.aspx" target="_blank" class="text-blue-600 hover:underline">Apply Now</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
 
                         <!-- Footer -->
